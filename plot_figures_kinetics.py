@@ -6,8 +6,8 @@ import matplotlib as mpl
 import json
 
 # Options for the figure plotting
-plot_at_selected_steps = [1, 10, 60, 120, 480, 960, 1000, 1200, 2400, 3600, 5800, 7200]  # the time steps at which the results are plotted
-#plot_at_selected_steps = [1, 10, 60, 120, 240, 480, 960, 1000]  # the time steps at which the results are plotted
+#plot_at_selected_steps = [1, 10, 60, 120, 480, 960, 1000, 1200, 2400, 3600, 5800, 7200]  # the time steps at which the results are plotted
+plot_at_selected_steps = [1, 10, 60, 120, 240, 480, 960, 1000]  # the time steps at which the results are plotted
 #plot_at_selected_steps = [1, 10, 20, 40, 80, 100]  # the time steps at which the results are plotted
 
 # Auxiliary time related constants
@@ -20,7 +20,7 @@ year = 365 * day
 # Discretisation parameters
 xl = 0.0          # the x-coordinate of the left boundary
 xr = 1.0          # the x-coordinate of the right boundary
-nsteps = 10000    # the number of steps in the reactive transport simulation
+nsteps = 1000    # the number of steps in the reactive transport simulation
 ncells = 100      # the number of cells in the discretization
 eqreltol = 1e-1   # relative tolerance in equilibrium
 eqabstol = 1e-12  # absolute tolerance in equilibrium
@@ -55,10 +55,10 @@ tag_class = "-dt-" + "{:d}".format(dt) + \
 test_tag_smart = tag_smart + "-smart-kin-conv-eq"
 test_tag_class = tag_class + "-conv-kin-conv-eq"
 
-folder = 'rt-exact-hessian-withcutoff'
-folder_class = 'rt-exact-hessian-dt-1800-ncells-100-nsteps-10000-conv-kin-conv-eq'
+folder = 'rt-sa-50'
+folder_class = 'rt-sa-50'
 folder_smart   = "../" + folder + test_tag_smart
-folder_class   = "../" + folder_class
+folder_class   = "../" + folder_class + test_tag_class
 folder_general = "results-smart-kin-" + folder + tag_smart
 
 os.system('mkdir -p ' + folder_general)
