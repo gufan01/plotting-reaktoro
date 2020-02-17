@@ -50,26 +50,24 @@ test_tag_class = tag + "-reference"
 #folder = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers'
 #folder = 'results-with-normalization'
 #folder = 'results-deltan-with-normalization'
-#folder_smart = 'cpp-reactivetransport-old-demo/results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
-#folder_class = 'cpp-reactivetransport-old-demo/results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000-reference'
-#folder_general = "plots-results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000"
-folder_smart = 'cpp-reactivetransport-old-demo/results-pitzer-dt-3594.24-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
-folder_class = 'cpp-reactivetransport-old-demo/results-pitzer-dt-3594.24-ncells-100-nsteps-10000-reference'
-folder_general = "plots-results-pitzer-dt-3594.24-ncells-100-nsteps-10000"
+folder_smart   = "cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart"
+folder_class   = "cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-reference"
+folder_general = "plots-results-pitzer-full-with-skipping-1e-13-both-solvers-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e" + tag
 os.system('mkdir -p ' + folder_general)
 
 fillz = len(str(123))
 
 # Indices of the loaded data to plot
-pH = 0
-Hcation = 1
-HSanion = 2
-S2anion = 3
-SO4anion = 4
-HSO4anion = 5
-H2Saq = 6
-pyrrhotite = 7
-siderite = 8
+indx_ph        = 0
+indx_Hcation   = 1
+indx_Cacation  = 2
+indx_Mgcation  = 3
+indx_HCO3anion = 4
+indx_CO2aq     = 5
+indx_calcite   = 6
+indx_dolomite  = 7
+indx_mol_calcite   = 8
+indx_mol_dolomite  = 9
 
 # Plotting params
 circ_area = 6 ** 2
@@ -131,10 +129,9 @@ def plot_figures_ph():
         filearray_smart = np.loadtxt(folder_smart + '/' + files_smart[i-1], skiprows=1)
         data_class = filearray_class.T
         data_smart = filearray_smart.T
-        data_class_ph = data_class[pH]
-        data_smart_ph = data_smart[pH]
-        #plt.axes(xlim=(-0.01, 0.501))
-        plt.axes(xlim=(-0.01, 0.501), ylim=(4, 9))
+        data_class_ph = data_class[indx_ph]
+        data_smart_ph = data_smart[indx_ph]
+        plt.axes(xlim=(-0.01, 0.501), ylim=(2.5, 12.0))
         plt.xlabel('Distance [m]')
         plt.ylabel('pH')
         plt.title(titlestr(t))
@@ -149,36 +146,67 @@ def plot_figures_ph():
         plt.close()
 
 
-def plot_figures_pyrrhotite_siderite():
+def plot_figures_calcite_dolomite():
 
     for i in plot_at_selected_steps:
-        print("On pyrrhotite-siderite figure at time step: {}".format(i))
+        print("On calcite-dolomite figure at time step: {}".format(i))
         t = i * dt
         filearray_class = np.loadtxt(folder_class + '/' + files_class[i-1], skiprows=1)
         filearray_smart = np.loadtxt(folder_smart + '/' + files_smart[i-1], skiprows=1)
         data_class = filearray_class.T
         data_smart = filearray_smart.T
 
-        data_class_pyrrhotite, data_class_siderite = data_class[pyrrhotite], data_class[siderite]
-        data_smart_pyrrhotite, data_smart_siderite = data_smart[pyrrhotite], data_smart[siderite]
-        plt.axes(xlim=(-0.01, 0.501), ylim=(-0.1, 6.1))
-        #plt.axes(xlim=(-0.01, 0.501), ylim=(-0.1, 2.1))
-        plt.ylabel('Mineral Volume')
+        data_class_calcite, data_class_dolomite = data_class[indx_calcite], data_class[indx_dolomite]
+        data_smart_calcite, data_smart_dolomite = data_smart[indx_calcite], data_smart[indx_dolomite]
+        plt.axes(xlim=(-0.01, 0.501), ylim=(-0.1, 2.1))
+        plt.ylabel('Mineral Volume [%$_{\mathsf{vol}}$]')
 
         plt.xlabel('Distance [m]')
         plt.title(titlestr(t))
-        plt.plot(xcells, data_class_pyrrhotite, label='Pyrrhotite', **line('C0'))
-        plt.plot(xcells, data_class_siderite, label='Siderite', **line('C1'))
-        plt.plot(xcells[status[i-1]==0], data_smart_pyrrhotite[status[i-1]==0], 'o', **line_empty_marker('C0'))
-        plt.plot(xcells[status[i-1]==1], data_smart_pyrrhotite[status[i-1]==1], 'o', **line_filled_marker('C0'))
-        plt.plot(xcells[status[i-1]==0], data_smart_siderite[status[i-1]==0], 'o', **line_empty_marker('C1'))
-        plt.plot(xcells[status[i-1]==1], data_smart_siderite[status[i-1]==1], 'o', **line_filled_marker('C1'))
+        plt.plot(xcells, data_class_calcite * 100/(1 - phi), label='Calcite', **line('C0'))
+        plt.plot(xcells, data_class_dolomite * 100/(1 - phi), label='Dolomite', **line('C1'))
+        plt.plot(xcells[status[i-1]==0], data_smart_calcite[status[i-1]==0] * 100/(1 - phi), 'o', **line_empty_marker('C0'))
+        plt.plot(xcells[status[i-1]==1], data_smart_calcite[status[i-1]==1] * 100/(1 - phi), 'o', **line_filled_marker('C0'))
+        plt.plot(xcells[status[i-1]==0], data_smart_dolomite[status[i-1]==0] * 100/(1 - phi), 'o', **line_empty_marker('C1'))
+        plt.plot(xcells[status[i-1]==1], data_smart_dolomite[status[i-1]==1] * 100/(1 - phi), 'o', **line_filled_marker('C1'))
         plt.plot([], [], 'o', label='Smart Prediction', **line_filled_marker('black'))
         plt.plot([], [], 'o', label='Learning', **line_empty_marker('black'))
         plt.legend(loc='center right')
-        plt.savefig(folder_general + '/pyrrhotite-siderite-{}.png'.format(i))
+        plt.savefig(folder_general + '/calcite-dolomite-{}.png'.format(i))
         plt.tight_layout()
         plt.close()
+
+
+def plot_figures_calcite_dolomite_moles():
+
+    for i in plot_at_selected_steps:
+        print("On calcite-dolomite figure at time step: {}".format(i))
+        t = i * dt
+        filearray_class = np.loadtxt(folder_class + '/' + files_class[i-1], skiprows=1)
+        filearray_smart = np.loadtxt(folder_smart + '/' + files_smart[i-1], skiprows=1)
+        data_class = filearray_class.T
+        data_smart = filearray_smart.T
+
+        data_class_calcite, data_class_dolomite = data_class[indx_mol_calcite], data_class[indx_mol_dolomite]
+        data_smart_calcite, data_smart_dolomite = data_smart[indx_mol_calcite], data_smart[indx_mol_dolomite]
+        plt.axes(xlim=(-0.01, 0.501))
+        plt.ylabel('Concentration [mol/m3]')
+
+        plt.xlabel('Distance [m]')
+        plt.title(titlestr(t))
+        plt.plot(xcells, data_class_calcite, label='Calcite', **line('C0'))
+        plt.plot(xcells, data_class_dolomite, label='Dolomite', **line('C1'))
+        plt.plot(xcells[status[i-1]==0], data_smart_calcite[status[i-1]==0], 'o', **line_empty_marker('C0'))
+        plt.plot(xcells[status[i-1]==1], data_smart_calcite[status[i-1]==1], 'o', **line_filled_marker('C0'))
+        plt.plot(xcells[status[i-1]==0], data_smart_dolomite[status[i-1]==0], 'o', **line_empty_marker('C1'))
+        plt.plot(xcells[status[i-1]==1], data_smart_dolomite[status[i-1]==1], 'o', **line_filled_marker('C1'))
+        plt.plot([], [], 'o', label='Smart Prediction', **line_filled_marker('black'))
+        plt.plot([], [], 'o', label='Learning', **line_empty_marker('black'))
+        plt.legend(loc='center right')
+        plt.savefig(folder_general + '/calcite-dolomite-moles-{}.png'.format(i))
+        plt.tight_layout()
+        plt.close()
+
 
 def plot_figures_aqueous_species():
 
@@ -189,45 +217,36 @@ def plot_figures_aqueous_species():
         filearray_smart = np.loadtxt(folder_smart + '/' + files_smart[i-1], skiprows=1)
         data_class = filearray_class.T
         data_smart = filearray_smart.T
-
-        data_class_Hcation  = data_class[Hcation]
-        data_class_HSanion  = data_class[HSanion]
-        data_class_S2anion = data_class[S2anion]
-        data_class_SO4anion     = data_class[SO4anion]
-        data_class_HSO4anion   = data_class[HSO4anion]
-        data_class_H2Saq = data_class[H2Saq]
-
-        data_smart_Hcation = data_smart[Hcation]
-        data_smart_HSanion = data_smart[HSanion]
-        data_smart_S2anion = data_smart[S2anion]
-        data_smart_SO4anion = data_smart[SO4anion]
-        data_smart_HSO4anion = data_smart[HSO4anion]
-        data_smart_H2Saq = data_smart[H2Saq]
-
-        #plt.axes(xlim=(-0.01, 0.501))
-        plt.axes(xlim=(-0.01, 0.501), ylim=(1e-12, 1e1))
+        data_class_cacation  = data_class[indx_Cacation]
+        data_class_mgcation  = data_class[indx_Mgcation]
+        data_class_hco3anion = data_class[indx_HCO3anion]
+        data_class_co2aq     = data_class[indx_CO2aq]
+        data_class_hcation   = data_class[indx_Hcation]
+        data_smart_cacation  = data_smart[indx_Cacation]
+        data_smart_mgcation  = data_smart[indx_Mgcation]
+        data_smart_hco3anion = data_smart[indx_HCO3anion]
+        data_smart_co2aq     = data_smart[indx_CO2aq]
+        data_smart_hcation   = data_smart[indx_Hcation]
+        plt.axes(xlim=(-0.01, 0.501), ylim=(0.5e-5, 2))
         plt.xlabel('Distance [m]')
         plt.ylabel('Concentration [molal]')
         plt.yscale('log')
         plt.title(titlestr(t))
-        plt.plot(xcells, data_class_Hcation, label=r'$\mathrm{H^+}$', **line('darkviolet'))[0],
-        plt.plot(xcells, data_class_HSanion, label=r'$\mathrm{HS^{-}}$', **line('C0'))[0],
-        plt.plot(xcells, data_class_S2anion, label=r'$\mathrm{S^{2-}}$', **line('C1'))[0],
-        plt.plot(xcells, data_class_SO4anion, label=r'$\mathrm{HCO_3^{-}}$',**line('C2'))[0],
-        plt.plot(xcells, data_class_HSO4anion, label=r'$\mathrm{HSO_4^{-}}$',**line('red'))[0],
-        plt.plot(xcells, data_class_H2Saq, label=r'$\mathrm{H2S(aq)}$', **line('gold'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_Hcation[status[i-1]==0], 'o', **line_empty_marker('darkviolet'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_Hcation[status[i-1]==1], 'o', **line_filled_marker('darkviolet'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_HSanion[status[i-1]==0], 'o', **line_empty_marker('C0'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_HSanion[status[i-1]==1], 'o', **line_filled_marker('C0'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_S2anion[status[i-1]==0], 'o', **line_empty_marker('C1'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_S2anion[status[i-1]==1], 'o', **line_filled_marker('C1'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_SO4anion[status[i-1]==0], 'o', **line_empty_marker('C2'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_SO4anion[status[i-1]==1], 'o', **line_filled_marker('C2'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_HSO4anion[status[i-1]==0], 'o', **line_empty_marker('red'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_HSO4anion[status[i-1]==1], 'o', **line_filled_marker('red'))[0],
-        plt.plot(xcells[status[i - 1] == 0], data_smart_H2Saq[status[i - 1] == 0], 'o', **line_empty_marker('gold'))[0],
-        plt.plot(xcells[status[i - 1] == 1], data_smart_H2Saq[status[i - 1] == 1], 'o', **line_filled_marker('gold'))[0],
+        plt.plot(xcells, data_class_cacation, label=r'$\mathrm{Ca^{2+}}$', **line('C0'))[0],
+        plt.plot(xcells, data_class_mgcation, label=r'$\mathrm{Mg^{2+}}$', **line('C1'))[0],
+        plt.plot(xcells, data_class_hco3anion, label=r'$\mathrm{HCO_3^{-}}$',**line('C2'))[0],
+        plt.plot(xcells, data_class_co2aq, label=r'$\mathrm{CO_2(aq)}$',**line('red'))[0],
+        plt.plot(xcells, data_class_hcation, label=r'$\mathrm{H^+}$', **line('darkviolet'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_cacation[status[i-1]==0], 'o', **line_empty_marker('C0'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_cacation[status[i-1]==1], 'o', **line_filled_marker('C0'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_mgcation[status[i-1]==0], 'o', **line_empty_marker('C1'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_mgcation[status[i-1]==1], 'o', **line_filled_marker('C1'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_hco3anion[status[i-1]==0], 'o', **line_empty_marker('C2'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_hco3anion[status[i-1]==1], 'o', **line_filled_marker('C2'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_co2aq[status[i-1]==0], 'o', **line_empty_marker('red'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_co2aq[status[i-1]==1], 'o', **line_filled_marker('red'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_hcation[status[i-1]==0], 'o', **line_empty_marker('darkviolet'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_hcation[status[i-1]==1], 'o', **line_filled_marker('darkviolet'))[0],
         plt.plot([], [], 'o', label='Smart Prediction', **line_filled_marker('black'))
         plt.plot([], [], 'o', label='Learning', **line_empty_marker('black'))
         plt.legend(loc='upper right')
@@ -265,7 +284,7 @@ def plot_computing_costs():
     plt.plot(time_steps[0:nsteps:step], timings_equilibrium_smart_ideal[0:nsteps:step], label="Chemical Equilibrium (Smart)", color='C3', linewidth=2, alpha=1.0)
     plt.plot(time_steps[0:nsteps:step], timings_transport[0:nsteps:step], label="Transport", color='C2', linewidth=2, alpha=1.0)
     leg = plt.legend(loc='lower right', bbox_to_anchor=(1, 0.13))
-    for line in leg.get_lines(): line.set_linewidth(2.0)
+    #for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
     plt.savefig(folder_general + '/computing-costs-nolegend-with-smart-ideal.png')
     #plt.savefig(folder_general + '/computing-costs-nolegend-with-smart.png')
@@ -424,7 +443,7 @@ if __name__ == '__main__':
     plot_speedups()
     plot_computing_costs_vs_total_learnings()
     plot_computing_costs()
-    #plot_figures_ph()
+    plot_figures_ph()
     #plot_figures_aqueous_species()
-    #plot_figures_pyrrhotite_siderite()
-    #plot_figures_pyrrhotite_siderite_moles()
+    #plot_figures_calcite_dolomite()
+    #plot_figures_calcite_dolomite_moles()

@@ -10,7 +10,7 @@ from numpy import linalg as la
 
 # Options for the figure plotting
 plot_at_selected_steps = [1, 10, 60, 120, 240, 480, 960, 1200, 2400, 3600]  # the time steps at which the results are plotted
-plot_at_steps_in_paper = [1, 10, 2400]
+plot_at_selected_steps = [1, 10, 2400]
 
 # Auxiliary time related constants
 second = 1
@@ -48,7 +48,7 @@ test_tag_smart = tag + "-smart"
 test_tag_class = tag + "-reference"
 
 # /results-addAqueousPhase
-folder = 'results-selected-species'
+folder = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers'
 #folder = 'results-with-normalization'
 #folder = 'results-deltan-with-normalization'
 folder_smart   = folder + test_tag_smart
