@@ -50,12 +50,12 @@ test_tag_class = tag + "-reference"
 #folder = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers'
 #folder = 'results-with-normalization'
 #folder = 'results-deltan-with-normalization'
-#folder_smart = 'cpp-reactivetransport-old-demo/results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
-#folder_class = 'cpp-reactivetransport-old-demo/results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000-reference'
-#folder_general = "plots-results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000"
-folder_smart = 'cpp-reactivetransport-old-demo/results-pitzer-dt-3594.24-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
-folder_class = 'cpp-reactivetransport-old-demo/results-pitzer-dt-3594.24-ncells-100-nsteps-10000-reference'
-folder_general = "plots-results-pitzer-dt-3594.24-ncells-100-nsteps-10000"
+folder_smart = 'cpp-reactivetransport-old-demo/results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
+folder_class = 'cpp-reactivetransport-old-demo/results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000-reference'
+folder_general = "plots-results-debey-huckel-dt-3594.24-ncells-100-nsteps-10000"
+#folder_smart = 'cpp-reactivetransport-old-demo/results-pitzer-dt-3594.24-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
+#folder_class = 'cpp-reactivetransport-old-demo/results-pitzer-dt-3594.24-ncells-100-nsteps-10000-reference'
+#folder_general = "plots-results-pitzer-dt-3594.24-ncells-100-nsteps-10000"
 os.system('mkdir -p ' + folder_general)
 
 fillz = len(str(123))
@@ -133,8 +133,8 @@ def plot_figures_ph():
         data_smart = filearray_smart.T
         data_class_ph = data_class[pH]
         data_smart_ph = data_smart[pH]
-        #plt.axes(xlim=(-0.01, 0.501))
-        plt.axes(xlim=(-0.01, 0.501), ylim=(4, 9))
+        #plt.axes(xlim=(-0.01,1.001))
+        plt.axes(xlim=(-0.01,1.001), ylim=(4, 9))
         plt.xlabel('Distance [m]')
         plt.ylabel('pH')
         plt.title(titlestr(t))
@@ -161,8 +161,8 @@ def plot_figures_pyrrhotite_siderite():
 
         data_class_pyrrhotite, data_class_siderite = data_class[pyrrhotite], data_class[siderite]
         data_smart_pyrrhotite, data_smart_siderite = data_smart[pyrrhotite], data_smart[siderite]
-        plt.axes(xlim=(-0.01, 0.501), ylim=(-0.1, 6.1))
-        #plt.axes(xlim=(-0.01, 0.501), ylim=(-0.1, 2.1))
+        plt.axes(xlim=(-0.01,1.001), ylim=(-0.1, 6.1))
+        #plt.axes(xlim=(-0.01,1.001), ylim=(-0.1, 2.1))
         plt.ylabel('Mineral Volume')
 
         plt.xlabel('Distance [m]')
@@ -204,8 +204,8 @@ def plot_figures_aqueous_species():
         data_smart_HSO4anion = data_smart[HSO4anion]
         data_smart_H2Saq = data_smart[H2Saq]
 
-        #plt.axes(xlim=(-0.01, 0.501))
-        plt.axes(xlim=(-0.01, 0.501), ylim=(1e-12, 1e1))
+        #plt.axes(xlim=(-0.01,1.001))
+        plt.axes(xlim=(-0.01,1.001), ylim=(1e-12, 1e1))
         plt.xlabel('Distance [m]')
         plt.ylabel('Concentration [molal]')
         plt.yscale('log')
@@ -424,7 +424,7 @@ if __name__ == '__main__':
     plot_speedups()
     plot_computing_costs_vs_total_learnings()
     plot_computing_costs()
-    #plot_figures_ph()
-    #plot_figures_aqueous_species()
-    #plot_figures_pyrrhotite_siderite()
+    plot_figures_ph()
+    plot_figures_aqueous_species()
+    plot_figures_pyrrhotite_siderite()
     #plot_figures_pyrrhotite_siderite_moles()
