@@ -45,10 +45,18 @@ tag = "-dt-" + "{:d}".format(dt) + \
 test_tag_smart = tag + "-smart"
 test_tag_class = tag + "-reference"
 
-folder = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers'
-folder_smart   = folder + test_tag_smart
-folder_class   = folder + test_tag_class
-folder_general = "plots-" + folder + tag
+import os
+from matplotlib import font_manager as fm, rcParams
+fpath = os.path.join(rcParams["datapath"], "/usr/share/fonts/truetype/ebgaramond/EBGaramond12-Regular.ttf")
+#fpath = os.path.join(rcParams["datapath"], "/home/skyas/Dropbox/TeX-Gyre-Adventor.ttf")
+prop = fm.FontProperties(fname=fpath)
+prop.set_size(16)
+
+#folder = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-13-both-solvers'
+#folder = 'results-pitzer/results'
+folder_smart   = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-14-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-smart'
+folder_class   = 'cpp-reactivetransport-old-demo/results-pitzer-full-with-skipping-1e-14-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-01-eqabstol-1.0e-08-reference'
+folder_general = 'plots-garamond'
 
 os.system('mkdir -p ' + folder_general)
 
@@ -269,7 +277,7 @@ def plot_on_demand_learning_countings():
     learnings = ncells - np.sum(statuses, 1)
     learnings = np.where(learnings > 0, learnings, -1)  # replace 0's by -1 to improve figure
 
-    plt.xlabel('Time Step')
+    plt.xlabel('Time Step', fontproperties=prop)
     plt.ylim(bottom=0, top=6)
     plt.ticklabel_format(style='plain', axis='x')
     plt.plot(learnings, color='C0', linewidth=2)
@@ -330,15 +338,16 @@ def plot_speedups():
     plt.ylabel('Speedup (-)')
     plt.ticklabel_format(style='plain', axis='x')
     plt.plot(time_steps[0:nsteps:step], speedup[0:nsteps:step], label="Conventional vs. Smart ", color='C0', linewidth=2)
-    plt.plot(time_steps[0:nsteps:step], speedup_ideal[0:nsteps:step], label="Conventional vs. Smart (Ideal search)", color='C2', linewidth=2, alpha=0.0)
+    plt.plot(time_steps[0:nsteps:step], speedup_ideal[0:nsteps:step], label="Conventional vs. Smart (Ideal search)",
+             color='C2', linewidth=2, alpha=1.0)
 
-    #leg = plt.legend(loc='upper right')
-    #for line in leg.get_lines():
-     #   line.set_linewidth(2.0)
+    leg = plt.legend(loc='upper right')
+    for line in leg.get_lines():
+        line.set_linewidth(2.0)
     plt.tight_layout()
-    #plt.savefig(folder_general + '/speedups.png')
+    plt.savefig(folder_general + '/speedups.png')
     #plt.show()
-    plt.savefig(folder_general + '/speedups-nolegend-noupperbound.png')
+    #plt.savefig(folder_general + '/speedups-nolegend-noupperbound.png')
     plt.close()
 
 if __name__ == '__main__':
@@ -359,10 +368,10 @@ if __name__ == '__main__':
     files_class = [file for file in natsorted( os.listdir(folder_class) ) if ("analysis" not in file)]
 
     plot_on_demand_learning_countings()
-    plot_on_demand_learnings_total()
-    plot_speedups()
-    plot_computing_costs_vs_total_learnings()
-    plot_computing_costs()
-    plot_figures_ph()
-    plot_figures_calcite_dolomite()
-    plot_figures_aqueous_species()
+    # plot_on_demand_learnings_total()
+    # plot_speedups()
+    # plot_computing_costs_vs_total_learnings()
+    # plot_computing_costs()
+    # plot_figures_ph()
+    # plot_figures_calcite_dolomite()
+    # plot_figures_aqueous_species()
