@@ -4,10 +4,11 @@ import os
 from natsort import natsorted
 import matplotlib as mpl
 import json
-
+#mpl.style.use('v2.0')
 
 # Options for the figure plotting
-plot_at_selected_steps = [1, 10, 60, 120, 240, 480, 960, 1200, 2400, 3600, 4800, 6400, 7200]  # the time steps at which the results are plotted
+#plot_at_selected_steps = [1, 10, 60, 40, 480, 960, 1200, 2400, 3600, 4800, 7200]  # the time steps at which the results are plotted
+plot_at_selected_steps = [1, 10, 60, 120, 240, 480, 960, 1000]  # the time steps at which the results are plotted
 #plot_at_selected_steps = [1, 10, 60, 120, 240, 480, 960, 1000]  # the time steps at which the results are plotted
 #plot_at_selected_steps = [1, 10, 20, 40, 80, 100]  # the time steps at which the results are plotted
 
@@ -21,7 +22,7 @@ year = 365 * day
 # Discretisation parameters
 xl = 0.0          # the x-coordinate of the left boundary
 xr = 1.0          # the x-coordinate of the right boundary
-nsteps = 10000    # the number of steps in the reactive transport simulation
+nsteps = 1000    # the number of steps in the reactive transport simulation
 ncells = 100      # the number of cells in the discretization
 reltol = 1e-1     # relative tolerance
 abstol = 1e-8     # absolute tolerance
@@ -75,9 +76,9 @@ test_tag_class = tag + "-reference"
 # folder_general = "plots-results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-2.0e-02-eqabstol-1.0e-08"
 
 # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search
-folder_smart   = "results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
-folder_class   = "results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
-folder_general = "plots-results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+#folder_smart   = "results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+#folder_class   = "results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+#folder_general = "plots-results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
 
 # # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model
 # folder_smart   = "results-hkf-full-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
@@ -101,30 +102,91 @@ folder_general = "plots-results-pitzer-full-dt-1800-ncells-100-nsteps-10000-eqre
 # folder_general = "plot-results-hkf-full-with-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
 
 # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
-folder_smart   = "results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
-folder_class   = "results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
-folder_general = "plot-results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+#folder_smart   = "results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+#folder_class   = "results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+#folder_general = "plot-results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
 
 # # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
 # folder_smart   = "results-hkf-full-no-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.5e-02-eqabstol-1.0e-08-smart"
 # folder_class   = "results-hkf-full-no-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.5e-02-eqabstol-1.0e-08-reference"
 # folder_general = "plot-results-hkf-full-no-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.5e-02-eqabstol-1.0e-08"
 
+# # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
+# folder_smart   = "results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+# folder_class   = "results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+# folder_general = "plot-results-hkf-full-no-skipping-stable-sorting-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+
+# # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
+# folder_smart   = "results-hkf-full-no-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+# folder_class   = "results-hkf-full-no-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+# folder_general = "plot-results-hkf-full-no-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+#
+# # # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
+# folder_smart   = "results-hkf-full-with-skipping-highest-priority-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+# folder_class   = "results-hkf-full-with-skipping-highest-priority-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+# folder_general = "plot-results-hkf-full-with-skipping-highest-priority-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+#
+# # # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
+# folder_smart   = "results-hkf-full-with-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+# folder_class   = "results-hkf-full-with-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+# folder_general = "plot-results-hkf-full-with-skipping-stable-sorting-in-range-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+
+# # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
+#folder_smart   = "results-hkf-full-with-skipping-phi-fvol-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-smart"
+#folder_class   = "results-hkf-full-with-skipping-phi-fvol-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08-reference"
+#folder_general = "plot-results-hkf-full-with-skipping-phi-fvol-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-02-eqabstol-1.0e-08"
+
+
+# # algorithm from the allanleal-cpp-reactivetransport-demo branch based on sequential search for HKF model skipping sorting
+# folder_smart   = "results-hkf-full-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-1.0e-03-eqabstol-1.0e-08-smart"
+# folder_class   = "results-hkf-full-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-1.0e-03-eqabstol-1.0e-08-reference"
+# folder_general = "plot-results-hkf-full-new-algorithm-with-skipping-dt-1800-ncells-100-nsteps-1000-eqreltol-1.0e-04-eqabstol-1.0e-08"
+
+#folder_smart   = "results-hkf-full-new-algorithm-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-03-eqabstol-1.0e-08-smart"
+#folder_class   = "results-hkf-full-new-algorithm-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-03-eqabstol-1.0e-08-reference"
+#folder_general = "plot-results-hkf-full-new-algorithm-with-skipping-dt-1800-ncells-100-nsteps-10000-eqreltol-1.0e-03-eqabstol-1.0e-08"
+
+#folder_smart   = "results-hkf-full-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-5.0e-03-eqabstol-1.0e-08-smart"
+#folder_class   = "results-hkf-full-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-5.0e-03-eqabstol-1.0e-08-reference"
+#folder_general = "plot-results-hkf-full-new-algorithm-with-skipping-dt-1800-ncells-100-nsteps-1000-eqreltol-5.0e-03-eqabstol-1.0e-08"
+
+#folder_smart   = "results-new-algorithm-dt-1800-ncells-100-nsteps-10000-eqreltol-5.0e-03-eqabstol-1.0e-08-pitzer-smart"
+#folder_class   = "results-new-algorithm-dt-1800-ncells-100-nsteps-10000-eqreltol-5.0e-03-eqabstol-1.0e-08-pitzer-reference"
+#folder_general = "plot-results-new-algorithm-with-skipping-dt-1800-ncells-100-nsteps-10000-eqreltol-5.0e-03-eqabstol-1.0e-08-pitzer"
+
+#folder_smart   = "results-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-1.0e-02-eqabstol-1.0e-08-hkf-smart"
+#folder_class   = "results-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-1.0e-02-eqabstol-1.0e-08-hkf-reference"
+#folder_general = "plot-results-new-algorithm-with-skipping-dt-1800-ncells-100-nsteps-1000-eqreltol-1.0e-02-eqabstol-1.0e-08-hkf"
+
+#folder_smart   = "results-old-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-3.0e-03-eqabstol-1.0e-08-hkf-smart"
+#folder_class   = "results-old-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-3.0e-03-eqabstol-1.0e-08-hkf-reference"
+#folder_general = "plot-results-old-algorithm-with-skipping-dt-1800-ncells-100-nsteps-1000-eqreltol-3.0e-03-eqabstol-1.0e-08-hkf"
+
+folder_smart   = "results-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-3.0e-03-eqabstol-1.0e-08-hkf-smart"
+folder_class   = "results-new-algorithm-dt-1800-ncells-100-nsteps-1000-eqreltol-3.0e-03-eqabstol-1.0e-08-hkf-reference"
+folder_general = "plot-results-updated-new-algorithm-with-skipping-dt-1800-ncells-100-nsteps-1000-eqreltol-3.0e-03-eqabstol-1.0e-08-hkf"
+
+
 os.system('mkdir -p ' + folder_general)
 
 fillz = len(str(123))
 
 # Indices of the loaded data to plot
-indx_ph        = 0
-indx_Hcation   = 1
-indx_Cacation  = 2
-indx_Mgcation  = 3
+indx_ph = 0
+indx_Hcation = 1
+indx_Cacation = 2
+indx_Mgcation = 3
 indx_HCO3anion = 4
-indx_CO2aq     = 5
-indx_calcite   = 6
-indx_dolomite  = 7
-indx_mol_calcite   = 8
-indx_mol_dolomite  = 9
+indx_CO2aq = 5
+indx_calcite = 6
+indx_dolomite = 7
+
+indx_CO3anion = 8
+indx_CaClcation = 9
+indx_CaHCO3cation = 10
+indx_MgClcation = 11
+indx_MgHCO3caanion = 12
+indx_OHanion = 13
 
 # Plotting params
 circ_area = 6 ** 2
@@ -152,7 +214,7 @@ xcells = np.linspace(xl, xr, ncells)  # the x-coordinates of the plots
 #legend style
 # mpl.rcParams['legend.frameon'] = True
 # mpl.rcParams['legend.numpoints'] = 3
-#mpl.rcParams['backend'] = 'PDF'
+#mpl.rcParams['backend'] = 'png'
 #mpl.rcParams['savefig.dpi'] = 200
 
 def empty_marker(color):
@@ -277,17 +339,33 @@ def plot_figures_aqueous_species():
         filearray_smart = np.loadtxt(folder_smart + '/' + files_smart[i-1], skiprows=1)
         data_class = filearray_class.T
         data_smart = filearray_smart.T
+        indx_ph = 0
+
         data_class_cacation  = data_class[indx_Cacation]
         data_class_mgcation  = data_class[indx_Mgcation]
         data_class_hco3anion = data_class[indx_HCO3anion]
         data_class_co2aq     = data_class[indx_CO2aq]
         data_class_hcation   = data_class[indx_Hcation]
+        data_class_CO3anion   = data_class[indx_CO3anion]
+        data_class_CaHCO3cation = data_class[indx_CaHCO3cation]
+        data_class_CaClcation = data_class[indx_CaClcation]
+        data_class_MgClcation = data_class[indx_MgClcation]
+        data_class_MgHCO3caanion = data_class[indx_MgHCO3caanion]
+        data_class_OHanion       = data_class[indx_OHanion]
+
         data_smart_cacation  = data_smart[indx_Cacation]
         data_smart_mgcation  = data_smart[indx_Mgcation]
         data_smart_hco3anion = data_smart[indx_HCO3anion]
         data_smart_co2aq     = data_smart[indx_CO2aq]
         data_smart_hcation   = data_smart[indx_Hcation]
-        plt.axes(xlim=(-0.01, 0.501), ylim=(0.5e-5, 2))
+        data_smart_CO3anion   = data_smart[indx_CO3anion]
+        data_smart_CaHCO3cation  = data_smart[indx_CaHCO3cation]
+        data_smart_CaClcation = data_smart[indx_CaClcation]
+        data_smart_MgClcation = data_smart[indx_MgClcation]
+        data_smart_MgHCO3caanion = data_smart[indx_MgHCO3caanion]
+        data_smart_OHanion       = data_smart[indx_OHanion]
+
+        plt.axes(xlim=(-0.01, 0.501), ylim=(0.5e-10, 5))
         plt.xlabel('Distance [m]')
         plt.ylabel('Concentration [molal]')
         plt.yscale('log')
@@ -295,18 +373,37 @@ def plot_figures_aqueous_species():
         plt.plot(xcells, data_class_cacation, label=r'$\mathrm{Ca^{2+}}$', **line('C0'))[0],
         plt.plot(xcells, data_class_mgcation, label=r'$\mathrm{Mg^{2+}}$', **line('C1'))[0],
         plt.plot(xcells, data_class_hco3anion, label=r'$\mathrm{HCO_3^{-}}$',**line('C2'))[0],
-        plt.plot(xcells, data_class_co2aq, label=r'$\mathrm{CO_2(aq)}$',**line('red'))[0],
-        plt.plot(xcells, data_class_hcation, label=r'$\mathrm{H^+}$', **line('darkviolet'))[0],
+        plt.plot(xcells, data_class_co2aq, label=r'$\mathrm{CO_2(aq)}$',**line('C3'))[0],
+        plt.plot(xcells, data_class_hcation, label=r'$\mathrm{H^+}$', **line('C4'))[0],
+        plt.plot(xcells, data_class_CO3anion, label=r'$\mathrm{CO3^{2-}}$', **line('C5'))[0],
+        plt.plot(xcells, data_class_CaHCO3cation, label=r'$\mathrm{Ca(HCO3)^+}$', **line('C6'))[0],
+        plt.plot(xcells, data_class_CaClcation, label=r'$\mathrm{CaCl^+}$',**line('C7'))[0],
+        plt.plot(xcells, data_class_MgClcation, label=r'$\mathrm{MgCl^+}$',**line('C8'))[0],
+        plt.plot(xcells, data_class_MgHCO3caanion, label=r'$\mathrm{Mg(HCO3))^+}$',**line('C9'))[0],
+        plt.plot(xcells, data_class_OHanion, label=r'$\mathrm{OH^-}$', **line('darkviolet'))[0],
+
         plt.plot(xcells[status[i-1]==0], data_smart_cacation[status[i-1]==0], 'o', **line_empty_marker('C0'))[0],
         plt.plot(xcells[status[i-1]==1], data_smart_cacation[status[i-1]==1], 'o', **line_filled_marker('C0'))[0],
         plt.plot(xcells[status[i-1]==0], data_smart_mgcation[status[i-1]==0], 'o', **line_empty_marker('C1'))[0],
         plt.plot(xcells[status[i-1]==1], data_smart_mgcation[status[i-1]==1], 'o', **line_filled_marker('C1'))[0],
         plt.plot(xcells[status[i-1]==0], data_smart_hco3anion[status[i-1]==0], 'o', **line_empty_marker('C2'))[0],
         plt.plot(xcells[status[i-1]==1], data_smart_hco3anion[status[i-1]==1], 'o', **line_filled_marker('C2'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_co2aq[status[i-1]==0], 'o', **line_empty_marker('red'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_co2aq[status[i-1]==1], 'o', **line_filled_marker('red'))[0],
-        plt.plot(xcells[status[i-1]==0], data_smart_hcation[status[i-1]==0], 'o', **line_empty_marker('darkviolet'))[0],
-        plt.plot(xcells[status[i-1]==1], data_smart_hcation[status[i-1]==1], 'o', **line_filled_marker('darkviolet'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_co2aq[status[i-1]==0], 'o', **line_empty_marker('C3'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_co2aq[status[i-1]==1], 'o', **line_filled_marker('C3'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_hcation[status[i-1]==0], 'o', **line_empty_marker('C4'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_hcation[status[i-1]==1], 'o', **line_filled_marker('C4'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_CO3anion[status[i-1]==0], 'o', **line_empty_marker('C5'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_CO3anion[status[i-1]==1], 'o', **line_filled_marker('C5'))[0], \
+        plt.plot(xcells[status[i-1]==0], data_smart_CaHCO3cation[status[i-1]==0], 'o', **line_empty_marker('C6'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_CaHCO3cation[status[i-1]==1], 'o', **line_filled_marker('C6'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_CaClcation[status[i-1]==0], 'o', **line_empty_marker('C7'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_CaClcation[status[i-1]==1], 'o', **line_filled_marker('C7'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_MgClcation[status[i-1]==0], 'o', **line_empty_marker('C8'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_MgClcation[status[i-1]==1], 'o', **line_filled_marker('C8'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_MgHCO3caanion[status[i-1]==0], 'o', **line_empty_marker('C9'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_MgHCO3caanion[status[i-1]==1], 'o', **line_filled_marker('C9'))[0],
+        plt.plot(xcells[status[i-1]==0], data_smart_OHanion[status[i-1]==0], 'o', **line_empty_marker('darkviolet'))[0],
+        plt.plot(xcells[status[i-1]==1], data_smart_OHanion[status[i-1]==1], 'o', **line_filled_marker('darkviolet'))[0],
         plt.plot([], [], 'o', label='Smart Prediction', **line_filled_marker('black'))
         plt.plot([], [], 'o', label='Learning', **line_empty_marker('black'))
         plt.legend(loc='upper right')
@@ -635,7 +732,7 @@ def calculate_error(tol):
         plt.plot(xcells, rel_error_calcite, label='Calcite', **line('C0'))
         plt.plot(xcells, rel_error_dolomite, label='Dolomite', **line('C1'))
         plt.legend(loc='center right')
-        plt.savefig(folder_general + f'/error-rel-calcite-dolomite-{i}.pdf')
+        plt.savefig(folder_general + f'/error-rel-calcite-dolomite-{i}.png')
         plt.tight_layout()
         plt.close()
 
@@ -650,7 +747,7 @@ def calculate_error(tol):
         plt.plot(xcells, rel_error_co2aq, label=r'$\mathrm{CO_2(aq)}$', **line('red'))
         plt.plot(xcells, rel_error_hcation, label=r'$\mathrm{H^+}$', **line('darkviolet'))
         plt.legend(loc='upper right')
-        plt.savefig(folder_general + f'/error-rel-aqueous-species-{i}.pdf')
+        plt.savefig(folder_general + f'/error-rel-aqueous-species-{i}.png')
         plt.tight_layout()
         plt.close()
         '''
@@ -796,7 +893,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-calcite-dolomite-l1.pdf')
+    plt.savefig(folder_general + '/errors-calcite-dolomite-l1.png')
     plt.close()
 
     plt.xlabel('Time Step')
@@ -817,7 +914,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-aqueous-l1.pdf')
+    plt.savefig(folder_general + '/errors-aqueous-l1.png')
     plt.close()
 
     step = 40
@@ -833,7 +930,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-calcite-dolomite-l1-log.pdf')
+    plt.savefig(folder_general + '/errors-calcite-dolomite-l1-log.png')
     plt.close()
 
     plt.xlabel('Time Step')
@@ -854,7 +951,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-aqueous-l1-log.pdf')
+    plt.savefig(folder_general + '/errors-aqueous-l1-log.png')
     plt.close()
 
 
@@ -873,7 +970,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-calcite-dolomite-l1-percent.pdf')
+    plt.savefig(folder_general + '/errors-calcite-dolomite-l1-percent.png')
     plt.close()
 
     plt.xlabel('Time Step')
@@ -893,7 +990,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='upper left')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-aqueous-l1-percent.pdf')
+    plt.savefig(folder_general + '/errors-aqueous-l1-percent.png')
     plt.close()
     '''
     '''
@@ -913,7 +1010,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right', bbox_to_anchor=(1, 0.13))
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-calcite-dolomite-rms.pdf')
+    plt.savefig(folder_general + '/errors-calcite-dolomite-rms.png')
     plt.close()
 
     plt.xlabel('Time Step')
@@ -934,7 +1031,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-aqueous-rms.pdf')
+    plt.savefig(folder_general + '/errors-aqueous-rms.png')
     plt.close()
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -956,7 +1053,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig('errors-calcite-dolomite-inf.pdf')
+    plt.savefig('errors-calcite-dolomite-inf.png')
     plt.close()
 
     plt.xlabel('Time Step')
@@ -977,7 +1074,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-aqueous-inf.pdf')
+    plt.savefig(folder_general + '/errors-aqueous-inf.png')
     plt.close()
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -995,7 +1092,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='lower right')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig('errors-calcite-dolomite-inf-percent.pdf')
+    plt.savefig('errors-calcite-dolomite-inf-percent.png')
     plt.close()
 
     plt.xlabel('Time Step')
@@ -1015,7 +1112,7 @@ def calculate_error(tol):
     leg = plt.legend(loc='upper left')
     for line in leg.get_lines(): line.set_linewidth(2.0)
     plt.tight_layout()
-    plt.savefig(folder_general + '/errors-aqueous-inf-percent.pdf')
+    plt.savefig(folder_general + '/errors-aqueous-inf-percent.png')
     plt.close()
 
     print('max |e in pH|_l1 = %2.2e' % np.max(error_l1_ph))
@@ -1112,7 +1209,7 @@ if __name__ == '__main__':
     plot_speedups()
     plot_computing_costs_vs_total_learnings()
     plot_computing_costs()
-    plot_figures_ph()
+    #plot_figures_ph()
     plot_figures_aqueous_species()
     plot_figures_calcite_dolomite()
     #plot_figures_calcite_dolomite_moles()
