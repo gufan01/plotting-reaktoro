@@ -829,7 +829,7 @@ def plot_figures_calcite_dolomite():
         data_smart_calcite, data_smart_dolomite = data_smart[indx_calcite], data_smart[indx_dolomite]
         plt.axes(xlim=(-0.01, 0.501), ylim=(-0.1, 2.1))
         plt.xlabel('Distance [m]', fontproperties=prop)
-        plt.ylabel('Mineral Volume [%$_{\mathsf{vol}}$]', fontproperties=prop)
+        plt.ylabel('Mineral Volume [%vol]', fontproperties=prop)
         plt.title(titlestr(t), fontproperties=prop, fontsize=24)
         plt.plot(xcells, data_class_calcite * 100/(1 - phi), label='Calcite', **line('C0'))
         plt.plot(xcells, data_class_dolomite * 100/(1 - phi), label='Dolomite', **line('C1'))
@@ -871,7 +871,7 @@ def plot_figures_log10_aqueous_species():
         plt.plot(xcells, np.log10(data_class_mgcation), label='Mg+2', **line('C1'))[0],
         plt.plot(xcells, np.log10(data_class_hco3anion), label='HCO3-', **line('C2'))[0],
         plt.plot(xcells, np.log10(data_class_co2aq), label='CO2(aq)', **line('red'))[0],
-        plt.plot(xcells, np.log10(data_class_hcation), label=r'H+', **line('darkviolet'))[0],
+        plt.plot(xcells, np.log10(data_class_hcation), label='H+', **line('darkviolet'))[0],
         plt.plot(xcells[status[i-1]==0], np.log10(data_smart_cacation[status[i-1]==0]), 'o', **line_empty_marker('C0'))[0],
         plt.plot(xcells[status[i-1]==1], np.log10(data_smart_cacation[status[i-1]==1]), 'o', **line_filled_marker('C0'))[0],
         plt.plot(xcells[status[i-1]==0], np.log10(data_smart_mgcation[status[i-1]==0]), 'o', **line_empty_marker('C1'))[0],
@@ -983,7 +983,6 @@ def plot_on_demand_learning_countings():
     plt.savefig(folder_general + '/on-demand-learning-countings.pdf')
     plt.close()
 
-
 def plot_on_demand_learnings_total():
 
     step = 1
@@ -1017,8 +1016,6 @@ def plot_on_demand_learnings_total_initial_steps(nsteps_initial):
     plt.savefig(folder_general + '/on-demand-learning-total-initial-steps-'+ str(nsteps_initial) + '.pdf')
     plt.close()
 
-
-
 def plot_computing_costs_vs_total_learnings():
 
     step = 40
@@ -1043,7 +1040,6 @@ def plot_computing_costs_vs_total_learnings():
     plt.savefig(folder_general + '/search-traylor-vs-total-learnings.pdf')
     plt.close()
 
-
 def plot_speedups():
 
     step = 80
@@ -1054,7 +1050,7 @@ def plot_speedups():
     speedup_ideal = data_class[1] / (data_smart[1] - data_smart[3] - data_smart[7])
 
     plt.xlabel('Time Step', fontproperties=prop)
-    plt.ylabel('Speedup (-)', fontproperties=prop)
+    plt.ylabel('Speedup [-]', fontproperties=prop)
     plt.ticklabel_format(style='plain', axis='x')
     plt.plot(time_steps[0:nsteps:step], speedup_ideal[0:nsteps:step], label="Speedup: Conventional vs. Smart (Ideal search)", color='C0', linewidth=1)
     plt.plot(time_steps[0:nsteps:step], speedup[0:nsteps:step], label="Speedup: Conventional vs. Smart ", color='C1', linewidth=1)
